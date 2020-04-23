@@ -43,7 +43,7 @@ module.exports = function (app) {
 
   // ---------------------------------------------------------------------------
   // API Delete Requests
-  //Figure out a way to add a unique id to notes to make delete function work
+  //If a user no longer needs the note to be saved, they can submit a server request to delete the note from the array
 
   app.delete("/api/notes/:id", function (req, res) {
     let id = req.params.id;
