@@ -7,6 +7,7 @@
 var db = require("../db/db");
 var fs = require("fs");
 var util = require("util");
+var uuidv4 = require("uuid/v4");
 
 //Global constant that helps us write data to files ===============================================================================
 
@@ -35,6 +36,7 @@ module.exports = function (app) {
 
   app.post("/api/notes", function (req, res) {
     db.push(req.body);
+    req.body.id = uuidv4();
     writeFile(__dirname + "/../db/db.json", JSON.stringify(db));
     res.json(db);
   });
@@ -43,7 +45,10 @@ module.exports = function (app) {
   // API Delete Requests
   //Figure out a way to add a unique id to notes to make delete function work
 
-  // app.delete("/api/notes/:id", function (req, res) {
-
-  // });
+  app.delete("/api/notes/:id", function (req, res) {
+    let id = req.params.id;
+    db = db.filter((object) => object.id !== id);
+    writeFile(__dirname + "/../db/db.json", JSON.stringify(db));
+    res.json(db);
+  });
 };
